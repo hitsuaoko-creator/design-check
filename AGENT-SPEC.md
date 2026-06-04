@@ -44,7 +44,10 @@ The acceptance target is the source documentation library in the project, includ
 - Ask one question at a time.
 - Ask only for missing information.
 - If the source repository name is missing, ask `请告诉我你的“源码仓库名称”。` as the next message and wait for that single answer. The purpose is to locate the pending diff source.
-- If the source repository name is known but the project path is still missing, ask `对应项目的路径是什么？` as the next message and wait for that single answer.
+- After the source repository name is known, try to locate the local project path automatically by matching directory names, git remotes, or repository metadata in the current workspace or mounted project roots.
+- If one unique project path match is found, continue without asking the user for the path.
+- If multiple plausible project path matches are found, ask one disambiguation question with the candidate paths.
+- If no plausible project path match is found, ask the user for the path only as a fallback.
 - Create the document structure before or while collecting answers.
 - Fill the baseline files progressively.
 - If the baseline is incomplete, stop the audit stage and list missing items.

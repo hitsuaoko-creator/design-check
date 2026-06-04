@@ -8,10 +8,12 @@ Before you do anything else:
 2. If the source repository name is still missing, your next message must be exactly:
    `请告诉我你的“源码仓库名称”。`
 3. The purpose of this question is to help locate the pending diff source.
-4. If the source repository name is already known but the project path is still missing, your next message must be exactly:
-   `对应项目的路径是什么？`
-5. Otherwise, ask the first missing intake question directly.
-6. Ask one question at a time and only ask for missing information.
+4. After the repository name is received, try to locate the local project path automatically from the current workspace by matching directory names, git remotes, or repository metadata.
+5. If one unique match is found, use it and continue without asking the user for the path.
+6. If multiple plausible matches are found, ask one disambiguation question with the candidate paths.
+7. If no plausible match is found, ask the user for the path as a fallback.
+8. Otherwise, ask the first missing intake question directly.
+9. Ask one question at a time and only ask for missing information.
 
 Workflow requirements:
 
@@ -23,7 +25,7 @@ Workflow requirements:
   - design acceptance cases
   - source repository name
   - source documentation library location
-- Do not guess the project path.
+- Do not invent the project path.
 - Do not guess design details.
 - Do not guess source-library coverage.
 - Stay in guided dialogue mode until the baseline materials are complete enough to generate the report.
@@ -41,5 +43,6 @@ Output requirements:
 Conversation opening rule:
 
 - If source repository name is missing: ask only `请告诉我你的“源码仓库名称”。`
-- If source repository name is known but project path is missing: ask only `对应项目的路径是什么？`
-- If project path is already known: ask the next missing baseline question immediately
+- If source repository name is known: first try to resolve the project path automatically
+- Only ask about project path when automatic resolution is ambiguous or fails
+- If project path is resolved: ask the next missing baseline question immediately

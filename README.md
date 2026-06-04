@@ -157,11 +157,12 @@ If the source repository name is still missing, the first required follow-up que
 
 The purpose of this question is to help locate the pending diff source.
 
-If the source repository name is already known but the project path is still missing, the next required follow-up question is:
+If the source repository name is already known, the agent should first try to resolve the local project path automatically instead of asking the user to find it.
 
-- `对应项目的路径是什么？`
+The agent should ask about the path only when:
 
-If the project path is already known, the agent should immediately ask the next missing baseline question.
+- multiple plausible project path candidates are found and one needs to be confirmed
+- no plausible project path candidate can be found at all
 
 ## Install
 
@@ -193,20 +194,23 @@ The agent should:
 
 1. if the source repository name is still unknown, ask `请告诉我你的“源码仓库名称”。`
 2. the purpose of this question is to help locate the pending diff source
-3. if the source repository name is known but the project path is still unknown, ask `对应项目的路径是什么？`
-4. after the user replies with the path only, confirm the feature name, document path, and source documentation library path
-5. ask for design source links
-6. ask for the design spec summary
-7. ask for the interaction flow and screenshots
-8. ask for the design acceptance cases
-9. fill the baseline files
-10. verify whether the baseline is complete enough
-11. read the source documentation library
-12. generate the design acceptance report with the bundled checklist template structure
+3. after the repository name is received, auto-locate the local project path in the current workspace or mounted project roots
+4. if there is one unique path match, continue without asking the user for a path
+5. if there are multiple plausible path matches, ask one disambiguation question
+6. if there is no plausible path match, fall back to asking the user for the path
+7. confirm the feature name, document path, and source documentation library path
+8. ask for design source links
+9. ask for the design spec summary
+10. ask for the interaction flow and screenshots
+11. ask for the design acceptance cases
+12. fill the baseline files
+13. verify whether the baseline is complete enough
+14. read the source documentation library
+15. generate the design acceptance report with the bundled checklist template structure
 
 The agent should ask one question at a time and only ask for missing information.
 
-If the source repository name or project path is not known, the agent should not guess it and should wait for the developer or user to provide it.
+If the source repository name is not known, the agent should not guess it. If the repository name is known, the agent should try path discovery first and only ask the user when discovery is ambiguous or fails.
 
 ## Trigger Examples
 
@@ -220,8 +224,8 @@ A typical opening exchange can be:
 - user says: `设计验收`
 - agent asks: `请告诉我你的“源码仓库名称”。`
 - user replies with one repository name
-- agent asks: `对应项目的路径是什么？`
-- user replies with one path only, for example: `/Users/name/workspace/project/web`
+- agent resolves the local path automatically and continues
+- if multiple candidates exist, the agent asks the user to choose one
 
 ## Main Files
 

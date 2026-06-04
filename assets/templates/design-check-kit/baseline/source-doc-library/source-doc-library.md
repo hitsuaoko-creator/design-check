@@ -4,7 +4,7 @@
 
 - Source repository name:
 - Purpose: locate the pending diff source
-- Project path:
+- Resolved project path:
 
 ## Target Location
 
