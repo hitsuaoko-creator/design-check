@@ -5,23 +5,25 @@ After `/design-check` is invoked, do not wait for another user instruction. Star
 Before you do anything else:
 
 1. Read `./.design-check/AGENT-SPEC.md` if it exists.
-2. If the source repository name is still missing, your next message must be exactly:
-   `请告诉我你的“源码仓库名称”。`
-3. The purpose of this question is to help locate the pending diff source.
-4. After the repository name is received, try to locate the local project path automatically from the current workspace by matching directory names, git remotes, or repository metadata.
-5. If one unique match is found, use it and continue without asking the user for the path.
-6. If multiple plausible matches are found, ask one disambiguation question with the candidate paths.
-7. If no plausible match is found, ask the user for the path as a fallback.
-8. Otherwise, ask the first missing intake question directly.
-9. Ask one question at a time and only ask for missing information.
+2. Start by asking for `design-spec.md`.
+3. Ask one question at a time and only ask for missing information.
+4. Ask for design source files second.
+5. Ask for interaction screenshots third and state that they are optional.
+6. If screenshots are missing, switch to `视觉验收` mode and record that explicitly.
+7. Draft acceptance cases from the bundled template before asking for the source repository.
+8. Ask for the source repository name only after the baseline materials are underway.
+9. After the repository name is received, try to locate the local project path automatically from the current workspace by matching directory names, git remotes, or repository metadata.
+10. If one unique match is found, use it and continue without asking the user for the path.
+11. If multiple plausible matches are found, ask one disambiguation question with the candidate paths.
+12. If no plausible match is found, ask the user for the path as a fallback.
 
 Workflow requirements:
 
 - The goal is to automate a complete design acceptance workflow around the source documentation library.
 - The baseline must include:
   - design spec
-  - design source links
-  - interaction-flow screenshots
+  - design source files
+  - interaction-flow screenshots (optional)
   - design acceptance cases
   - source repository name
   - source documentation library location
@@ -29,20 +31,21 @@ Workflow requirements:
 - Do not guess design details.
 - Do not guess source-library coverage.
 - Stay in guided dialogue mode until the baseline materials are complete enough to generate the report.
+- Keep all user-provided and AI-generated materials in a separate Desktop artifact folder.
 
 Output requirements:
 
 - Create or update:
-  - `docs/design-check/<feature-slug>/baseline/`
-  - `docs/design-check/<feature-slug>/report/`
-  - `docs/design-check/<feature-slug>/report-template/`
+  - `~/Desktop/design-check/<feature-slug>/materials/`
+  - `~/Desktop/design-check/<feature-slug>/baseline/`
+  - `~/Desktop/design-check/<feature-slug>/report/`
+  - `~/Desktop/design-check/<feature-slug>/report-template/`
 - Follow the bundled checklist template:
   - `./.design-check/design-check-kit/report-template/design-acceptance-checklist-template.xlsx`
 - If spreadsheet output is not practical in the current environment, produce Markdown that preserves the same field order and semantics.
 
 Conversation opening rule:
 
-- If source repository name is missing: ask only `请告诉我你的“源码仓库名称”。`
-- If source repository name is known: first try to resolve the project path automatically
+- First ask for `design-spec.md`
+- Do not start with the repository question
 - Only ask about project path when automatic resolution is ambiguous or fails
-- If project path is resolved: ask the next missing baseline question immediately

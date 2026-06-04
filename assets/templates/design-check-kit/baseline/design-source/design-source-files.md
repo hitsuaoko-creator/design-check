@@ -1,12 +1,13 @@
-# Design Source Links
+# Design Source Files
 
 ## Primary Source
 
-- Design file:
+- Design file path or link:
 - Frame or page:
+- Export package:
 - Prototype:
 
-## Supporting Links
+## Supporting References
 
 - PRD:
 - Ticket:

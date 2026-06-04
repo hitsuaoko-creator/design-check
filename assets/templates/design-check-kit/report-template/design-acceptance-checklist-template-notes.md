@@ -36,6 +36,7 @@ When generating a design acceptance report:
 - keep the same column order and semantics
 - if spreadsheet output is supported, generate an `.xlsx` report from this template
 - if spreadsheet output is not supported, generate Markdown with an equivalent table using the same fields
+- when interaction screenshots are missing, mark the audit mode as `视觉验收`
 
 ## Recommended Mappings
 

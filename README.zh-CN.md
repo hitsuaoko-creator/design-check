@@ -23,8 +23,8 @@
 设计验收基线包括：
 
 - design spec
-- 设计源文件链接
-- 交互链路截图
+- 设计稿源文件
+- 交互链路截图（可选）
 - 设计验收用例
 
 设计验收对象包括：
@@ -52,12 +52,15 @@
 ## 默认输出结构
 
 ```text
-docs/design-check/<feature-slug>/
+~/Desktop/design-check/<feature-slug>/
+├── materials/
+│   ├── user-provided/
+│   └── ai-generated/
 ├── baseline/
 │   ├── design-spec/
 │   │   └── design-spec.md
 │   ├── design-source/
-│   │   └── design-source-links.md
+│   │   └── design-source-files.md
 │   ├── interaction-flow/
 │   │   ├── interaction-flow.md
 │   │   └── screenshots/
@@ -84,6 +87,7 @@ design-check/
 │   └── templates/
 │       └── design-check-kit/
 │           ├── baseline/
+│           ├── materials/
 │           ├── report/
 │           └── report-template/
 ├── scripts/
@@ -94,11 +98,13 @@ design-check/
 ## 内置模板
 
 - `assets/templates/design-check-kit/baseline/design-spec/design-spec.md`
-- `assets/templates/design-check-kit/baseline/design-source/design-source-links.md`
+- `assets/templates/design-check-kit/baseline/design-source/design-source-files.md`
 - `assets/templates/design-check-kit/baseline/interaction-flow/interaction-flow.md`
 - `assets/templates/design-check-kit/baseline/interaction-flow/screenshots/.gitkeep`
 - `assets/templates/design-check-kit/baseline/acceptance-cases/design-acceptance-cases.md`
 - `assets/templates/design-check-kit/baseline/source-doc-library/source-doc-library.md`
+- `assets/templates/design-check-kit/materials/user-provided/.gitkeep`
+- `assets/templates/design-check-kit/materials/ai-generated/.gitkeep`
 - `assets/templates/design-check-kit/report/design-acceptance-report.md`
 - `assets/templates/design-check-kit/report-template/design-acceptance-checklist-template.xlsx`
 - `assets/templates/design-check-kit/report-template/design-acceptance-checklist-template-notes.md`
@@ -151,18 +157,7 @@ bash scripts/install_slash_commands.sh /abs/path/to/project claude
 
 触发后会立刻进入“引导式资料补齐”对话，不需要你再补一句说明。
 
-如果“源码仓库名称”还没给，第一句要求的追问是：
-
-- `请告诉我你的“源码仓库名称”。`
-
-这个问题的目的是帮助定位待测 diff 源。
-
-如果源码仓库名称已经给了，代理应先自动根据仓库名称定位本地项目路径，而不是先让用户自己找路径。
-
-只有两种情况才需要继续追问路径：
-
-- 找到了多个候选路径，需要用户二选一或确认
-- 完全找不到候选路径，需要用户补充
+如果功能名称已经知道，agent 应尽早创建桌面产物目录，并把用户提供和 AI 产出的材料都放进去。
 
 ## 安装方式
 
@@ -182,50 +177,42 @@ bash install-skill.sh /path/to/skills-root
 
 ## 初始化资料结构
 
-在目标项目中生成设计验收目录结构：
+在桌面上生成设计验收目录结构：
 
 ```bash
-bash scripts/bootstrap_design_check.sh /abs/path/to/project docs/design-check/login-page
+bash scripts/bootstrap_design_check.sh ~/Desktop design-check/login-page
 ```
 
 ## 预期工作流
 
 代理应按下面顺序工作：
 
-1. 如果还不知道“源码仓库名称”，先在对话中问：`请告诉我你的“源码仓库名称”。`
-2. 这个问题的目的，是帮助定位待测 diff 源
-3. 拿到仓库名称后，代理先自动在当前工作区或已挂载项目里匹配本地项目路径
-4. 如果只找到一个候选路径，直接继续，不再让用户手动找路径
-5. 如果找到多个候选路径，代理只问一次澄清问题来确认
-6. 如果完全找不到候选路径，才回退为向用户要路径
-7. 再确认功能名、文档路径、源码文档库路径
-8. 询问设计源文件链接
-9. 询问 design spec 摘要
-10. 询问交互链路和截图
-11. 询问设计验收用例
-12. 回填基线材料文件
-13. 检查基线材料是否足够完整
+1. 先要 `design-spec.md`
+2. 再要设计稿源文件
+3. 再要交互链路截图，并明确说明这是可选项
+4. 如果没有截图，就切到 `视觉验收` 模式
+5. 基于模板生成 `design-acceptance-cases.md`
+6. 再问源码仓库名称
+7. 收到仓库名后，在当前工作区或已挂载项目根目录中自动定位本地项目路径
+8. 如果只找到一个唯一匹配路径，就继续，不要再问用户路径
+9. 如果找到多个可能路径，就问一个消歧问题
+10. 如果完全找不到路径，再回退去问用户项目路径
+11. 询问源码文档库路径
+12. 把基线文件和材料目录都落到桌面产物根目录下
+13. 检查基线是否足够完整
 14. 读取源码文档库
-15. 按内置验收模板结构生成设计验收报告
+15. 使用内置清单模板结构生成设计验收报告
 
 代理应该一次只问一个问题，并且只追问缺失信息。
 
-如果源码仓库名称还没给到，代理不应该自己猜。项目路径也不应该凭空编造，但在仓库名称已知时，代理应先自动查找，再决定是否需要追问。
+代理不应该凭空猜项目路径或设计细节。交互截图是可选项；如果没有提供，报告里必须明确写出这次只做了视觉验收。
 
 ## 触发示例
 
 - `Use $design-check to automate design acceptance for the login page against the source documentation library.`
 - `Use $design-check, ask me step by step questions, complete the baseline materials, then generate the design acceptance report.`
-- `Use $design-check to scaffold docs/design-check/payment-result and review the source documentation library against the design baseline.`
+- `Use $design-check to scaffold ~/Desktop/design-check/payment-result and review the source documentation library against the design baseline.`
 - `设计验收`
-
-典型对话起手可以是：
-
-- 用户先说：`设计验收`
-- 代理追问：`请告诉我你的“源码仓库名称”。`
-- 用户回复一个仓库名
-- 代理自动定位本地路径并继续后续提问
-- 如果有多个候选，代理再列出候选路径让用户确认
 
 ## 关键文件说明
 

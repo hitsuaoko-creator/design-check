@@ -25,8 +25,8 @@ The agent must do two stages:
 The baseline must include:
 
 - design spec
-- design source links
-- interaction-flow screenshots
+- design source files
+- interaction-flow screenshots (optional)
 - design acceptance cases
 - source repository name
 - source documentation library location
@@ -43,22 +43,31 @@ The acceptance target is the source documentation library in the project, includ
 
 - Ask one question at a time.
 - Ask only for missing information.
-- If the source repository name is missing, ask `请告诉我你的“源码仓库名称”。` as the next message and wait for that single answer. The purpose is to locate the pending diff source.
+- Ask for `design-spec.md` first.
+- Ask for the design source file or files second.
+- Ask for interaction-flow screenshots third, and treat them as optional.
+- If interaction screenshots are missing, switch to `视觉验收` mode and record that limitation.
+- Draft the acceptance cases from the bundled template after the first three material steps.
+- Ask for the source repository name only after the baseline materials are underway.
 - After the source repository name is known, try to locate the local project path automatically by matching directory names, git remotes, or repository metadata in the current workspace or mounted project roots.
 - If one unique project path match is found, continue without asking the user for the path.
 - If multiple plausible project path matches are found, ask one disambiguation question with the candidate paths.
 - If no plausible project path match is found, ask the user for the path only as a fallback.
-- Create the document structure before or while collecting answers.
+- Create the document structure on the Desktop before or while collecting answers.
 - Fill the baseline files progressively.
 - If the baseline is incomplete, stop the audit stage and list missing items.
 - If the baseline is complete enough, read the source documentation library and generate the acceptance report.
 - Keep the acceptance report aligned with the bundled spreadsheet template fields.
 - Do not fabricate design details or source-library coverage.
+- Keep all user-provided and AI-generated materials inside the Desktop artifact root unless the user explicitly requests another location.
 
 ## Default Structure
 
 ```text
-docs/design-check/<feature-slug>/
+~/Desktop/design-check/<feature-slug>/
+├── materials/
+│   ├── user-provided/
+│   └── ai-generated/
 ├── baseline/
 │   ├── design-spec/
 │   ├── design-source/

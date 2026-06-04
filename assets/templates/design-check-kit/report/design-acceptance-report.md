@@ -5,6 +5,7 @@
 - Feature/Page:
 - Acceptance target:
 - Report status: blocked
+- Audit mode: `视觉验收`
 
 ## Template Reference
 
@@ -14,8 +15,8 @@
 ## Baseline Completeness
 
 - Design spec:
-- Design source links:
-- Interaction-flow screenshots:
+- Design source files:
+- Interaction-flow screenshots (optional):
 - Design acceptance cases:
 - Source documentation library:
 

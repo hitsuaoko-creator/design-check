@@ -3,6 +3,7 @@
 ## Flow Summary
 
 - Feature/Page:
+- Audit mode: `视觉+交互验收`
 - Entry:
 - Exit:
 
@@ -12,9 +13,10 @@
 | --- | --- | --- | --- | --- |
 | 1 | `待补充` | `待补充` | `待补充` | pending |
 
-## Missing Screenshots
+## Screenshot Evidence
 
-- `待补充`
+- If screenshots are not provided, change the audit mode to `视觉验收`
+- Missing screenshots: `待补充`
 
 ## Notes
 

@@ -23,8 +23,8 @@ Its goal is to automate a complete design acceptance workflow around a source do
 The acceptance baseline includes:
 
 - design spec
-- design source links
-- interaction-flow screenshots
+- design source files
+- interaction-flow screenshots (optional)
 - design acceptance cases
 
 The acceptance target includes:
@@ -52,12 +52,15 @@ The report should evaluate whether the source documentation library reflects the
 ## Default Output Structure
 
 ```text
-docs/design-check/<feature-slug>/
+~/Desktop/design-check/<feature-slug>/
+├── materials/
+│   ├── user-provided/
+│   └── ai-generated/
 ├── baseline/
 │   ├── design-spec/
 │   │   └── design-spec.md
 │   ├── design-source/
-│   │   └── design-source-links.md
+│   │   └── design-source-files.md
 │   ├── interaction-flow/
 │   │   ├── interaction-flow.md
 │   │   └── screenshots/
@@ -84,6 +87,7 @@ design-check/
 │   └── templates/
 │       └── design-check-kit/
 │           ├── baseline/
+│           ├── materials/
 │           ├── report/
 │           └── report-template/
 ├── scripts/
@@ -94,11 +98,13 @@ design-check/
 ## Included Templates
 
 - `assets/templates/design-check-kit/baseline/design-spec/design-spec.md`
-- `assets/templates/design-check-kit/baseline/design-source/design-source-links.md`
+- `assets/templates/design-check-kit/baseline/design-source/design-source-files.md`
 - `assets/templates/design-check-kit/baseline/interaction-flow/interaction-flow.md`
 - `assets/templates/design-check-kit/baseline/interaction-flow/screenshots/.gitkeep`
 - `assets/templates/design-check-kit/baseline/acceptance-cases/design-acceptance-cases.md`
 - `assets/templates/design-check-kit/baseline/source-doc-library/source-doc-library.md`
+- `assets/templates/design-check-kit/materials/user-provided/.gitkeep`
+- `assets/templates/design-check-kit/materials/ai-generated/.gitkeep`
 - `assets/templates/design-check-kit/report/design-acceptance-report.md`
 - `assets/templates/design-check-kit/report-template/design-acceptance-checklist-template.xlsx`
 - `assets/templates/design-check-kit/report-template/design-acceptance-checklist-template-notes.md`
@@ -151,18 +157,7 @@ After installation, you can trigger the workflow from chat with:
 
 After `/design-check`, the agent should immediately enter the guided intake flow. You should not need to add another instruction.
 
-If the source repository name is still missing, the first required follow-up question is:
-
-- `请告诉我你的“源码仓库名称”。`
-
-The purpose of this question is to help locate the pending diff source.
-
-If the source repository name is already known, the agent should first try to resolve the local project path automatically instead of asking the user to find it.
-
-The agent should ask about the path only when:
-
-- multiple plausible project path candidates are found and one needs to be confirmed
-- no plausible project path candidate can be found at all
+If the feature name is known, the agent should create the Desktop artifact folder early and keep all user-provided and AI-generated materials inside it.
 
 ## Install
 
@@ -182,50 +177,42 @@ If you are not using Codex, you can still copy this repository or only the `SKIL
 
 ## Bootstrap a Document Kit
 
-Generate the document structure inside a target project:
+Generate the document structure on the Desktop:
 
 ```bash
-bash scripts/bootstrap_design_check.sh /abs/path/to/project docs/design-check/login-page
+bash scripts/bootstrap_design_check.sh ~/Desktop design-check/login-page
 ```
 
 ## Expected Workflow
 
 The agent should:
 
-1. if the source repository name is still unknown, ask `请告诉我你的“源码仓库名称”。`
-2. the purpose of this question is to help locate the pending diff source
-3. after the repository name is received, auto-locate the local project path in the current workspace or mounted project roots
-4. if there is one unique path match, continue without asking the user for a path
-5. if there are multiple plausible path matches, ask one disambiguation question
-6. if there is no plausible path match, fall back to asking the user for the path
-7. confirm the feature name, document path, and source documentation library path
-8. ask for design source links
-9. ask for the design spec summary
-10. ask for the interaction flow and screenshots
-11. ask for the design acceptance cases
-12. fill the baseline files
+1. ask for `design-spec.md`
+2. ask for the design source file or files
+3. ask for the interaction flow screenshots and say they are optional
+4. if screenshots are missing, switch to `视觉验收` mode
+5. draft `design-acceptance-cases.md` from the bundled template
+6. ask for the source repository name
+7. after the repository name is received, auto-locate the local project path in the current workspace or mounted project roots
+8. if there is one unique path match, continue without asking the user for a path
+9. if there are multiple plausible path matches, ask one disambiguation question
+10. if there is no plausible path match, fall back to asking the user for the path
+11. ask for the source documentation library path
+12. fill the baseline files and materials folders under the Desktop artifact root
 13. verify whether the baseline is complete enough
 14. read the source documentation library
 15. generate the design acceptance report with the bundled checklist template structure
 
 The agent should ask one question at a time and only ask for missing information.
 
-If the source repository name is not known, the agent should not guess it. If the repository name is known, the agent should try path discovery first and only ask the user when discovery is ambiguous or fails.
+The agent should not guess the repository path or design details. Interaction screenshots are optional; when they are absent, the report should explicitly state that only visual acceptance was performed.
 
 ## Trigger Examples
 
 - `Use $design-check to automate design acceptance for the login page against the source documentation library.`
 - `Use $design-check, ask me step by step questions, complete the baseline materials, then generate the design acceptance report.`
-- `Use $design-check to scaffold docs/design-check/payment-result and review the source documentation library against the design baseline.`
+- `Use $design-check to scaffold ~/Desktop/design-check/payment-result and review the source documentation library against the design baseline.`
 - `设计验收`
-
-A typical opening exchange can be:
-
-- user says: `设计验收`
-- agent asks: `请告诉我你的“源码仓库名称”。`
-- user replies with one repository name
-- agent resolves the local path automatically and continues
-- if multiple candidates exist, the agent asks the user to choose one
 
 ## Main Files
 

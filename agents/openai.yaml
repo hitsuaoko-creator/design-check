@@ -1,7 +1,7 @@
 interface:
   display_name: "design-check"
-  short_description: "Automate UI design acceptance against a source doc library."
-  default_prompt: "Use $design-check to ask me step by step questions, complete the design acceptance baseline, and generate a design acceptance report against the source documentation library."
+  short_description: "Collect design spec and source files, then run design acceptance."
+  default_prompt: "Use $design-check to collect design-spec.md, design source files, optional interaction screenshots, draft acceptance cases from the template, and generate a design acceptance report against the source documentation library."
 
 policy:
   allow_implicit_invocation: true

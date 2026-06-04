@@ -5,6 +5,7 @@
 - Source repository name:
 - Purpose: locate the pending diff source
 - Resolved project path:
+- Desktop artifact root:
 
 ## Target Location
 
