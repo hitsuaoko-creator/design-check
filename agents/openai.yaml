@@ -1,7 +1,7 @@
 interface:
-  display_name: "UI-check"
-  short_description: "Scaffold UI acceptance docs and collect evidence step by step."
-  default_prompt: "Use $UI-check to create a UI acceptance document kit, ask me one question at a time, and fill the design spec, design source links, and interaction-flow screenshot files."
+  display_name: "design-check"
+  short_description: "Automate UI design acceptance against a source doc library."
+  default_prompt: "Use $design-check to ask me step by step questions, complete the design acceptance baseline, and generate a design acceptance report against the source documentation library."
 
 policy:
   allow_implicit_invocation: true
