@@ -207,6 +207,22 @@ The agent should ask one question at a time and only ask for missing information
 
 The agent should not guess the repository path or design details. Interaction screenshots are optional; when they are absent, the report should explicitly state that only visual acceptance was performed.
 
+## Repeated Trigger Behavior
+
+If `design-check` is triggered again in the same agent conversation, the agent should not immediately restart or continue on its own.
+
+It should first ask the user to choose:
+
+1. `进入新的设计验收`
+2. `继续上一轮验收`
+
+Then follow the user's choice:
+
+- if the user chooses `1`, start a new design acceptance run from the beginning
+- if the user chooses `2`, continue the previous run and reuse the existing artifact root and collected materials
+
+Do not proceed until the user explicitly replies with `1` or `2`.
+
 ## Trigger Examples
 
 - `Use $design-check to automate design acceptance for the login page against the source documentation library.`

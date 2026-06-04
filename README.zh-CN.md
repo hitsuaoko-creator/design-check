@@ -207,6 +207,22 @@ bash scripts/bootstrap_design_check.sh ~/Documents/Playground design-check-artif
 
 代理不应该凭空猜项目路径或设计细节。交互截图是可选项；如果没有提供，报告里必须明确写出这次只做了视觉验收。
 
+## 重复触发时的行为
+
+如果在同一个 agent 对话里再次触发 `design-check`，代理不应该直接重开，也不应该直接续跑。
+
+必须先让用户二选一：
+
+1. `进入新的设计验收`
+2. `继续上一轮验收`
+
+然后按用户选择执行：
+
+- 如果用户选 `1`，就从头开始新一轮设计验收
+- 如果用户选 `2`，就继续上一轮验收，并复用已有产物目录和已收集材料
+
+在用户明确回复 `1` 或 `2` 之前，不要继续流程。
+
 ## 触发示例
 
 - `Use $design-check to automate design acceptance for the login page against the source documentation library.`
