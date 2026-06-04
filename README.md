@@ -29,6 +29,7 @@ The acceptance baseline includes:
 
 The acceptance target includes:
 
+- source repository name
 - source documentation library location
 
 The bundled design acceptance report template lives at:
@@ -150,7 +151,13 @@ After installation, you can trigger the workflow from chat with:
 
 After `/design-check`, the agent should immediately enter the guided intake flow. You should not need to add another instruction.
 
-If the project path is still missing, the first required follow-up question is:
+If the source repository name is still missing, the first required follow-up question is:
+
+- `请告诉我你的“源码仓库名称”。`
+
+The purpose of this question is to help locate the pending diff source.
+
+If the source repository name is already known but the project path is still missing, the next required follow-up question is:
 
 - `对应项目的路径是什么？`
 
@@ -184,20 +191,22 @@ bash scripts/bootstrap_design_check.sh /abs/path/to/project docs/design-check/lo
 
 The agent should:
 
-1. if the code repository is already provided but the project path is still unknown, ask `对应项目的路径是什么？`
-2. after the user replies with the path only, confirm the feature name, document path, and source documentation library path
-3. ask for design source links
-4. ask for the design spec summary
-5. ask for the interaction flow and screenshots
-6. ask for the design acceptance cases
-7. fill the baseline files
-8. verify whether the baseline is complete enough
-9. read the source documentation library
-10. generate the design acceptance report with the bundled checklist template structure
+1. if the source repository name is still unknown, ask `请告诉我你的“源码仓库名称”。`
+2. the purpose of this question is to help locate the pending diff source
+3. if the source repository name is known but the project path is still unknown, ask `对应项目的路径是什么？`
+4. after the user replies with the path only, confirm the feature name, document path, and source documentation library path
+5. ask for design source links
+6. ask for the design spec summary
+7. ask for the interaction flow and screenshots
+8. ask for the design acceptance cases
+9. fill the baseline files
+10. verify whether the baseline is complete enough
+11. read the source documentation library
+12. generate the design acceptance report with the bundled checklist template structure
 
 The agent should ask one question at a time and only ask for missing information.
 
-If the repository is known but the project path is not, the agent should not guess the path and should wait for the developer or user to provide it.
+If the source repository name or project path is not known, the agent should not guess it and should wait for the developer or user to provide it.
 
 ## Trigger Examples
 
@@ -208,7 +217,9 @@ If the repository is known but the project path is not, the agent should not gue
 
 A typical opening exchange can be:
 
-- user provides the code repository
+- user says: `设计验收`
+- agent asks: `请告诉我你的“源码仓库名称”。`
+- user replies with one repository name
 - agent asks: `对应项目的路径是什么？`
 - user replies with one path only, for example: `/Users/name/workspace/project/web`
 

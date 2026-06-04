@@ -33,6 +33,7 @@ The acceptance baseline must include all of the following:
 
 The acceptance target must also be defined:
 
+- `source repository name`
 - `source documentation library location`
 
 If any baseline item is missing, ask only for the missing item and write it into the corresponding file.
@@ -79,13 +80,22 @@ Ask for only the missing information.
 
 Always identify:
 
+- source repository name
 - target project path
 - page or feature name
 - document root path
 - source documentation library path or paths
 - acceptance scope
 
-If the user has already provided the code repository but has not provided the corresponding project path yet, the next question in the dialogue must be:
+If the source repository name is still missing, the next question in the dialogue must be:
+
+- `请告诉我你的“源码仓库名称”。`
+
+The purpose of this question is to help locate the pending diff source.
+
+At this step, do not ask bundled follow-up questions in the same message. Wait for the user to reply with the repository name only, then continue.
+
+If the source repository name is already known but the corresponding project path is still missing, the next question in the dialogue must be:
 
 - `对应项目的路径是什么？`
 
@@ -99,13 +109,14 @@ Do not ask a large batch of questions at once.
 
 Use this order:
 
-1. if a code repository has been provided but the project path is still unknown, ask `对应项目的路径是什么？`
-2. confirm the page or feature name, doc path, and source documentation library path
-3. ask for the design source link or links
-4. ask for the design spec summary that must be preserved in implementation
-5. ask for the interaction path or user journey that needs screenshots
-6. ask whether screenshots already exist and where they are stored
-7. ask for the design acceptance cases
+1. if the source repository name is still unknown, ask `请告诉我你的“源码仓库名称”。`
+2. if the source repository name is known but the project path is still unknown, ask `对应项目的路径是什么？`
+3. confirm the page or feature name, doc path, and source documentation library path
+4. ask for the design source link or links
+5. ask for the design spec summary that must be preserved in implementation
+6. ask for the interaction path or user journey that needs screenshots
+7. ask whether screenshots already exist and where they are stored
+8. ask for the design acceptance cases
 
 Only move to the next question after the previous answer is received or explicitly skipped.
 
@@ -129,7 +140,7 @@ Required file intent:
 - `baseline/design-source/design-source-links.md`: Figma, MasterGo, prototype, handoff, related ticket links
 - `baseline/interaction-flow/interaction-flow.md`: ordered flow steps, expected state per step, screenshot mapping, missing evidence
 - `baseline/acceptance-cases/design-acceptance-cases.md`: explicit acceptance checks, expected result, pass criteria, priority
-- `baseline/source-doc-library/source-doc-library.md`: repository path, doc root, source files, entry points, excluded paths
+- `baseline/source-doc-library/source-doc-library.md`: source repository name, diff-source purpose, project path, doc root, source files, entry points, excluded paths
 
 If an answer is missing, record it as `待补充` instead of inventing details.
 
@@ -154,6 +165,7 @@ Before generating the acceptance report, verify whether the baseline is complete
 
 Minimum condition to proceed:
 
+- source repository name is known
 - source documentation library location is known
 - design spec is present
 - design source link is present

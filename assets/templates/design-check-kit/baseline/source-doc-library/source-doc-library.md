@@ -1,8 +1,13 @@
 # Source Documentation Library
 
+## Diff Source
+
+- Source repository name:
+- Purpose: locate the pending diff source
+- Project path:
+
 ## Target Location
 
-- Repository path:
 - Documentation root:
 - Feature/page doc path:
 
