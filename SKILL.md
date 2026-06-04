@@ -40,10 +40,10 @@ If any baseline item is missing, ask only for the missing item and write it into
 
 ## Required Output Structure
 
-Unless the user explicitly asks for another location, use this default structure in a separate folder on the Desktop:
+Unless the user explicitly asks for another location, use this default structure in a separate folder under `~/Documents/Playground`. By default, name the artifact folder `设计验收YY.MM.DD` using the current local date:
 
 ```text
-~/Desktop/design-check/<feature-slug>/
+~/Documents/Playground/design-check-artifacts/设计验收YY.MM.DD/
 ├── materials/
 │   ├── user-provided/
 │   └── ai-generated/
@@ -69,13 +69,29 @@ Unless the user explicitly asks for another location, use this default structure
 
 The bundled template lives at `assets/templates/design-check-kit/`.
 
-If the Desktop artifact folder does not already have the structure, create it by copying the bundled template or by running:
+If the default artifact folder does not already have the structure, create it by copying the bundled template or by running:
 
 ```bash
-bash scripts/bootstrap_design_check.sh ~/Desktop design-check/<feature-slug>
+bash scripts/bootstrap_design_check.sh ~/Documents/Playground design-check-artifacts/设计验收YY.MM.DD
 ```
 
 ## Required Workflow
+
+### 0. Handle repeated triggers in the same agent conversation
+
+If this skill is triggered again in the same agent conversation, do not immediately resume asking for materials.
+
+Ask the user to choose exactly one option first:
+
+1. `进入新的设计验收`
+2. `继续上一轮验收`
+
+After the user replies with `1` or `2`, continue as follows:
+
+- if the user chooses `1`, start a new design acceptance run from the beginning and return to step 1 of this workflow
+- if the user chooses `2`, continue the previous design acceptance run from its current state, reusing the existing artifact root and already collected materials
+
+Do not start a new run or continue an old run until the user has explicitly chosen `1` or `2`.
 
 ### 1. Collect baseline materials first
 
@@ -98,15 +114,17 @@ At this step, do not ask bundled follow-up questions in the same message. Wait f
 
 If a feature name is not yet known, infer it from the design spec when possible. If it still cannot be inferred, ask for the page or feature name only after receiving the design spec.
 
-### 2. Create the Desktop artifact folder early
+The feature name should be recorded inside the baseline documents. Do not use it as the default artifact folder name unless the user explicitly asks for that naming scheme.
 
-As soon as the feature name is known:
+### 2. Create the artifact folder early
 
-- create `~/Desktop/design-check/<feature-slug>/`
+As soon as the artifact root is known:
+
+- create `~/Documents/Playground/design-check-artifacts/设计验收YY.MM.DD/`
 - create or update all baseline files, report files, and materials folders there
 - preserve any existing user content
 
-All user-provided files, copied evidence, and AI-generated outputs must live under this Desktop artifact root.
+All user-provided files, copied evidence, and AI-generated outputs must live under this artifact root.
 
 ### 3. Ask step by step, one question at a time
 
@@ -129,9 +147,9 @@ Only move to the next question after the previous answer is received or explicit
 
 ### 4. Scaffold first, then fill
 
-As soon as the feature name is known:
+As soon as the artifact root is known:
 
-- create the Desktop folder structure if it does not exist
+- create the default artifact folder structure if it does not exist
 - create or update the baseline files, materials folders, and the report file
 - preserve any existing user content
 
@@ -161,7 +179,7 @@ If screenshots are already available:
 
 - ask for the exact file paths
 - reference them from `interaction-flow.md`
-- copy or index them under the Desktop artifact folder when practical
+- copy or index them under the artifact root when practical
 
 If screenshots do not exist yet:
 
@@ -234,7 +252,7 @@ When using this skill:
 - preserve the report columns defined by the bundled checklist template
 - preserve existing content and append or refine where possible
 - keep the report tied to the source documentation library
-- keep all materials under the Desktop artifact folder unless the user explicitly requests another location
+- keep all materials under the default artifact root unless the user explicitly requests another location
 
 ## Template Files
 

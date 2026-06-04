@@ -52,7 +52,7 @@ The report should evaluate whether the source documentation library reflects the
 ## Default Output Structure
 
 ```text
-~/Desktop/design-check/<feature-slug>/
+~/Documents/Playground/design-check-artifacts/设计验收YY.MM.DD/
 ├── materials/
 │   ├── user-provided/
 │   └── ai-generated/
@@ -157,7 +157,7 @@ After installation, you can trigger the workflow from chat with:
 
 After `/design-check`, the agent should immediately enter the guided intake flow. You should not need to add another instruction.
 
-If the feature name is known, the agent should create the Desktop artifact folder early and keep all user-provided and AI-generated materials inside it.
+By default, the agent should create the artifact folder early using the current date naming convention `设计验收YY.MM.DD`, and keep all user-provided and AI-generated materials inside it.
 
 ## Install
 
@@ -177,10 +177,10 @@ If you are not using Codex, you can still copy this repository or only the `SKIL
 
 ## Bootstrap a Document Kit
 
-Generate the document structure on the Desktop:
+Generate the document structure under `~/Documents/Playground`:
 
 ```bash
-bash scripts/bootstrap_design_check.sh ~/Desktop design-check/login-page
+bash scripts/bootstrap_design_check.sh ~/Documents/Playground design-check-artifacts/设计验收26.06.04
 ```
 
 ## Expected Workflow
@@ -198,7 +198,7 @@ The agent should:
 9. if there are multiple plausible path matches, ask one disambiguation question
 10. if there is no plausible path match, fall back to asking the user for the path
 11. ask for the source documentation library path
-12. fill the baseline files and materials folders under the Desktop artifact root
+12. fill the baseline files and materials folders under the artifact root
 13. verify whether the baseline is complete enough
 14. read the source documentation library
 15. generate the design acceptance report with the bundled checklist template structure
@@ -211,7 +211,7 @@ The agent should not guess the repository path or design details. Interaction sc
 
 - `Use $design-check to automate design acceptance for the login page against the source documentation library.`
 - `Use $design-check, ask me step by step questions, complete the baseline materials, then generate the design acceptance report.`
-- `Use $design-check to scaffold ~/Desktop/design-check/payment-result and review the source documentation library against the design baseline.`
+- `Use $design-check to scaffold ~/Documents/Playground/design-check-artifacts/设计验收26.06.04 and review the source documentation library against the design baseline.`
 - `设计验收`
 
 ## Main Files

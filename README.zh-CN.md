@@ -52,7 +52,7 @@
 ## 默认输出结构
 
 ```text
-~/Desktop/design-check/<feature-slug>/
+~/Documents/Playground/design-check-artifacts/设计验收YY.MM.DD/
 ├── materials/
 │   ├── user-provided/
 │   └── ai-generated/
@@ -157,7 +157,7 @@ bash scripts/install_slash_commands.sh /abs/path/to/project claude
 
 触发后会立刻进入“引导式资料补齐”对话，不需要你再补一句说明。
 
-如果功能名称已经知道，agent 应尽早创建桌面产物目录，并把用户提供和 AI 产出的材料都放进去。
+默认情况下，agent 应尽早按当天日期创建产物目录，命名为 `设计验收YY.MM.DD`，并把用户提供和 AI 产出的材料都放进去。
 
 ## 安装方式
 
@@ -177,10 +177,10 @@ bash install-skill.sh /path/to/skills-root
 
 ## 初始化资料结构
 
-在桌面上生成设计验收目录结构：
+在 `~/Documents/Playground` 下生成设计验收目录结构：
 
 ```bash
-bash scripts/bootstrap_design_check.sh ~/Desktop design-check/login-page
+bash scripts/bootstrap_design_check.sh ~/Documents/Playground design-check-artifacts/设计验收26.06.04
 ```
 
 ## 预期工作流
@@ -198,7 +198,7 @@ bash scripts/bootstrap_design_check.sh ~/Desktop design-check/login-page
 9. 如果找到多个可能路径，就问一个消歧问题
 10. 如果完全找不到路径，再回退去问用户项目路径
 11. 询问源码文档库路径
-12. 把基线文件和材料目录都落到桌面产物根目录下
+12. 把基线文件和材料目录都落到产物根目录下
 13. 检查基线是否足够完整
 14. 读取源码文档库
 15. 使用内置清单模板结构生成设计验收报告
@@ -211,7 +211,7 @@ bash scripts/bootstrap_design_check.sh ~/Desktop design-check/login-page
 
 - `Use $design-check to automate design acceptance for the login page against the source documentation library.`
 - `Use $design-check, ask me step by step questions, complete the baseline materials, then generate the design acceptance report.`
-- `Use $design-check to scaffold ~/Desktop/design-check/payment-result and review the source documentation library against the design baseline.`
+- `Use $design-check to scaffold ~/Documents/Playground/design-check-artifacts/设计验收26.06.04 and review the source documentation library against the design baseline.`
 - `设计验收`
 
 ## 关键文件说明

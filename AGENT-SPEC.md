@@ -41,6 +41,12 @@ The acceptance target is the source documentation library in the project, includ
 
 ## Required Behavior
 
+- If this skill is triggered again in the same agent conversation, ask the user to choose one option before proceeding:
+  - `1. 进入新的设计验收`
+  - `2. 继续上一轮验收`
+- If the user chooses `1`, restart the workflow from the beginning.
+- If the user chooses `2`, continue the previous run from its current state and reuse the existing artifact root and collected materials.
+- Do not proceed until the user explicitly replies with `1` or `2`.
 - Ask one question at a time.
 - Ask only for missing information.
 - Ask for `design-spec.md` first.
@@ -53,18 +59,18 @@ The acceptance target is the source documentation library in the project, includ
 - If one unique project path match is found, continue without asking the user for the path.
 - If multiple plausible project path matches are found, ask one disambiguation question with the candidate paths.
 - If no plausible project path match is found, ask the user for the path only as a fallback.
-- Create the document structure on the Desktop before or while collecting answers.
+- Create the document structure under `~/Documents/Playground` before or while collecting answers.
 - Fill the baseline files progressively.
 - If the baseline is incomplete, stop the audit stage and list missing items.
 - If the baseline is complete enough, read the source documentation library and generate the acceptance report.
 - Keep the acceptance report aligned with the bundled spreadsheet template fields.
 - Do not fabricate design details or source-library coverage.
-- Keep all user-provided and AI-generated materials inside the Desktop artifact root unless the user explicitly requests another location.
+- Keep all user-provided and AI-generated materials inside the default artifact root unless the user explicitly requests another location.
 
 ## Default Structure
 
 ```text
-~/Desktop/design-check/<feature-slug>/
+~/Documents/Playground/design-check-artifacts/设计验收YY.MM.DD/
 ├── materials/
 │   ├── user-provided/
 │   └── ai-generated/
